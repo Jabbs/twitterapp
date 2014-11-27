@@ -9,7 +9,7 @@ namespace :twitter do
       config.access_token_secret = ENV["TWITTER_ACCESS_SECRET"]
     end
     
-    TwitterAccount.where(following: false).where(unfollowed: false).where(invalid: false).first(50).each do |twitter_account|
+    TwitterAccount.where(following: false).where(unfollowed: false).where(not_valid: false).first(50).each do |twitter_account|
       begin 
         client.follow(twitter_account.screen_name)
         Rails.logger.info "Trip_Sharing followed #{twitter_account.screen_name} at #{DateTime.now}"
