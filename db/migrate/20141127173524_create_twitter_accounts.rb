@@ -6,6 +6,7 @@ class CreateTwitterAccounts < ActiveRecord::Migration
       t.boolean :unfollowed, default: false
       t.datetime :unfollowed_at
       t.boolean :following, default: false
+      t.boolean :invalid, default: false
 
       t.timestamps
     end

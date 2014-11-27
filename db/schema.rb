@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20141127173524) do
     t.boolean  "unfollowed",    default: false
     t.datetime "unfollowed_at"
     t.boolean  "following",     default: false
+    t.boolean  "invalid",       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
