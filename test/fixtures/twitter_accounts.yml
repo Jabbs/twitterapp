@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  screen_name: MyString
+  full_name: MyString
+  location: MyString
+  followers: 1
+  friends: 1
+  creation_date: 2014-11-27 11:35:24
+  tweet_count: 1
+  last_tweet: 2014-11-27 11:35:24
+  bio: MyText
+  url: MyText
+  perc_tweets_w_url: MyString
+  perc_retweets_in_timeline: MyString
+  perc_tweets_w_at_contact: MyString
+  social_authority: MyString
+
+two:
+  screen_name: MyString
+  full_name: MyString
+  location: MyString
+  followers: 1
+  friends: 1
+  creation_date: 2014-11-27 11:35:24
+  tweet_count: 1
+  last_tweet: 2014-11-27 11:35:24
+  bio: MyText
+  url: MyText
+  perc_tweets_w_url: MyString
+  perc_retweets_in_timeline: MyString
+  perc_tweets_w_at_contact: MyString
+  social_authority: MyString
