@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127173524) do
+ActiveRecord::Schema.define(version: 20141127203021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,9 +22,9 @@ ActiveRecord::Schema.define(version: 20141127173524) do
     t.boolean  "unfollowed",    default: false
     t.datetime "unfollowed_at"
     t.boolean  "following",     default: false
-    t.boolean  "invalid",       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "not_valid",     default: false
   end
 
   add_index "twitter_accounts", ["screen_name"], name: "index_twitter_accounts_on_screen_name", using: :btree

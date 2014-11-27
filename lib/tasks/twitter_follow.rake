@@ -18,7 +18,7 @@ namespace :twitter do
         twitter_account.save
       rescue Twitter::Error
         Rails.logger.info "THERE WAS AN ISSUE following #{twitter_account.screen_name} at #{DateTime.now}"
-        twitter_account.invalid = true
+        twitter_account.not_valid = true
         twitter_account.save
       end
     end
