@@ -34,9 +34,9 @@ namespace :twitter do
       config.access_token_secret = ENV["TWITTER_ACCESS_SECRET"]
     end
     
-    TwitterAccount.where(following: true).where(unfollowed: false).each do |twitter_account|
+    TwitterAccount.where(following: true).where(unfollowed: false).first(15).each do |twitter_account|
       
-      if 14.days.ago > twitter_account.follow_start
+      if 10.days.ago > twitter_account.follow_start
         begin 
           client.unfollow(twitter_account.screen_name)
           Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{DateTime.now}"
