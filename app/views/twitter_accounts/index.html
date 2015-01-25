@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-md-6">
+		<div class="panel panel-info">
+      <div class="panel-heading">
+      	<h3 class="panel-title">List: Twitter Accounts</h3>
+			</div>
+      <div class="panel-body">
+				<ul class="list-unstyled twitter-list">
+					<% @twitter_accounts.each do |twitter_account| %>
+						<li>
+							<%= link_to "@#{twitter_account.screen_name}", "https://twitter.com/#{twitter_account.screen_name }", target: "_blank" %>
+							<%= link_to "<i class='fa fa-trash-o'></i>".html_safe, twitter_account, class: "pull-right", method: :delete, data: { confirm: "Remove @#{twitter_account.screen_name}?" } %>
+						</li>
+					<% end %>
+					<%= will_paginate @twitter_accounts %>
+				</ul>
+      </div>
+    </div>
+  </div>
+	<div class="col-md-6">
+  	<div class="panel panel-warning">
+      <div class="panel-heading">
+      	<h3 class="panel-title">Info</h3>
+			</div>
+      <div class="panel-body">
+				<h4><strong>List total:</strong> <%= TwitterAccount.count %></h4>
+				<h4><strong>Remaining to follow:</strong> <%= TwitterAccount.where(following: false).where(unfollowed: false).size %></h4>
+				<h4><strong>Following:</strong> <%= @twitter_account_followings_count %></h4>
+				<h4><strong>Unfollowed:</strong> <%= TwitterAccount.where(unfollowed: true).size %></h4>
+				<h4><strong>Friends: <%= ENV["FRIENDS_COUNT"] %></strong> </h4>
+				<h4><strong>Followers: <%= ENV["FOLLOWERS_COUNT"] %></strong> </h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+  	<div class="panel panel-success">
+      <div class="panel-heading">
+      	<h3 class="panel-title">Strategy</h3>
+			</div>
+      <div class="panel-body">
+				<h4><strong>Start:</strong> 12/20/14</h4>
+				<h4><strong>Follow:</strong> 90 per day</h4>
+       	<h4><strong>Unfollow non-friends:</strong> after 15 days</h4>
+				<h4><strong>Unfollow friends:</strong> never</h4>
+				<em>*max # of followings allowed by twitter = 2k</em>
+				<br>
+				<em>*twitter api rate limit: 15 follows every 15 minutes</em>
+      </div>
+    </div>
+  </div>
+</div>
