@@ -29,10 +29,7 @@ namespace :twitter do
     end
     puts "#{array49461.count} in array49461.csv"
     
-    combined_49461_and_49408 = array49408 + array49461
-    puts "#{combined_49461_and_49408.count} in combined_49461_and_49408.csv"
-    
-    combined_49461_and_49408_first_50k = combined_49461_and_49408.shuffle.first(50000)
+    combined_49461_and_49408_first_50k = array49408.first(25000) + array49461.first(25000)
     puts "#{combined_49461_and_49408_first_50k.count} in combined_49461_and_49408_first_50k.csv"
     
     count = 0
