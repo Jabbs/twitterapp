@@ -46,8 +46,9 @@ namespace :twitter do
       #   count += 1
       # end
       
-      twitter_account = TwitterAccount.create(screen_name: screen_name)
-      count += 1
+      if TwitterAccount.create(screen_name: screen_name)
+        count += 1
+      end
       
     end
     puts "#{count} twitter accounts created in TwitterBot."
