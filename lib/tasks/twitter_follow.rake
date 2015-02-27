@@ -1,34 +1,36 @@
 namespace :twitter do
   desc 'Populate database with twitter_accounts'
   task :follow => :environment do
-    @switch = "on" unless @switch.present?
     hour = Time.now.hour
-    # 11:00pm to 6:59am CST do not disturb
-    unless (5..12).include?(hour) && @switch == "on"
-      # client = Twitter::REST::Client.new do |config|
-      #   config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
-      #   config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
-      #   config.access_token        = ENV["TWITTER_ACCESS_TOKEN"]
-      #   config.access_token_secret = ENV["TWITTER_ACCESS_SECRET"]
-      # end
-      # 
-      # TwitterAccount.where(following: false).where(unfollowed: false).where(not_valid: false).first(15).each do |twitter_account|
-      #   begin 
-      #     client.follow(twitter_account.screen_name)
-      #     Rails.logger.info "Trip_Sharing followed #{twitter_account.screen_name} at #{DateTime.now}"
-      #     twitter_account.follow_start = DateTime.now
-      #     twitter_account.following = true
-      #     twitter_account.save
-      #   rescue Twitter::Error
-      #     Rails.logger.info "THERE WAS AN ISSUE following #{twitter_account.screen_name} at #{DateTime.now}"
-      #     twitter_account.not_valid = true
-      #     twitter_account.save
-      #   end
-      # end
-      puts "Hello"
-      puts @switch
+    min = Time.now.min
+    fits_min_slot = false
+    if (5..15).include?(min) || (25..35).include?(min) || (45..55).include?(min)
+      fits_min_slot = true
     end
-    @switch == "on" ? @switch = "off" : @switch = "on"
+    
+    # 11:00pm to 6:59am CST do not disturb
+    unless (5..12).include?(hour) && fits_min_slot
+      client = Twitter::REST::Client.new do |config|
+        config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
+        config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
+        config.access_token        = ENV["TWITTER_ACCESS_TOKEN"]
+        config.access_token_secret = ENV["TWITTER_ACCESS_SECRET"]
+      end
+      
+      TwitterAccount.where(following: false).where(unfollowed: false).where(not_valid: false).first(15).each do |twitter_account|
+        begin 
+          client.follow(twitter_account.screen_name)
+          Rails.logger.info "Trip_Sharing followed #{twitter_account.screen_name} at #{DateTime.now}"
+          twitter_account.follow_start = DateTime.now
+          twitter_account.following = true
+          twitter_account.save
+        rescue Twitter::Error
+          Rails.logger.info "THERE WAS AN ISSUE following #{twitter_account.screen_name} at #{DateTime.now}"
+          twitter_account.not_valid = true
+          twitter_account.save
+        end
+      end
+    end
   end
   
   task :unfollow => :environment do
