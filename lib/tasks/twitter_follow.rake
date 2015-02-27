@@ -1,9 +1,10 @@
 namespace :twitter do
   desc 'Populate database with twitter_accounts'
   task :follow => :environment do
+    SWITCH = "on" unless SWITCH.present?
     hour = Time.now.hour
     # 11:00pm to 6:59am CST do not disturb
-    unless (5..12).include?(hour) && ENV["SWITCH"] == "on"
+    unless (5..12).include?(hour) && SWITCH == "on"
       # client = Twitter::REST::Client.new do |config|
       #   config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
       #   config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
