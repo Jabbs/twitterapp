@@ -25,9 +25,9 @@ namespace :twitter do
       #   end
       # end
       puts "Hello"
-      puts ENV["SWITCH"]
+      puts SWITCH
     end
-    ENV["SWITCH"] == "on" ? ENV["SWITCH"] = "off" : ENV["SWITCH"] = "on"
+    SWITCH == "on" ? SWITCH = "off" : SWITCH = "on"
   end
   
   task :unfollow => :environment do
