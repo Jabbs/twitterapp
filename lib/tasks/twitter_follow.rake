@@ -5,11 +5,11 @@ namespace :twitter do
     min = Time.now.min
     fits_min_slot = false
     if (5..15).include?(min) || (25..35).include?(min) || (45..55).include?(min)
-      fits_min_slot = true
+      odd_time_slot = true
     end
     
     # 11:00pm to 6:59am CST do not disturb
-    unless (5..12).include?(hour) && fits_min_slot == true
+    unless (5..12).include?(hour) && odd_time_slot == false
       client = Twitter::REST::Client.new do |config|
         config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
         config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
