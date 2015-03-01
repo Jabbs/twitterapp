@@ -24,7 +24,7 @@
 			</div>
       <div class="panel-body">
 				<h4><strong>List total:</strong> <%= TwitterAccount.count %></h4>
-				<h4><strong>Remaining to follow:</strong> <%= TwitterAccount.where(following: false).where(unfollowed: false).size %></h4>
+				<h4><strong>Remaining to follow:</strong> <%= TwitterAccount.where(following: false).where(unfollowed: false).where(not_valid: false).size %></h4>
 				<h4><strong>Following:</strong> <%= @twitter_account_followings_count %></h4>
 				<h4><strong>Unfollowed:</strong> <%= TwitterAccount.where(unfollowed: true).size %></h4>
 				<h4><strong>Friends: <%= ENV["FRIENDS_COUNT"] %></strong> </h4>
