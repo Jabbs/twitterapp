@@ -44,14 +44,14 @@ namespace :twitter do
     
     TwitterAccount.where(following: true).where(unfollowed: false).where("follow_start < ?", 3.days.ago).order("RANDOM()").each do |twitter_account|
       begin
-        # friendship = client.friendship(client, twitter_account.screen_name)
-        # unless friendship.attrs[:source][:followed_by] == true
+        friendship = client.friendship(client, twitter_account.screen_name)
+        unless friendship.attrs[:source][:followed_by] == true
           client.unfollow(twitter_account.screen_name)
           Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{DateTime.now}"
           twitter_account.unfollowed_at = DateTime.now
           twitter_account.unfollowed = true
           twitter_account.save
-        # end
+        end
       rescue Twitter::Error
         Rails.logger.info "THERE WAS AN ISSUE unfollowing #{twitter_account.screen_name} at #{DateTime.now}"
       end
