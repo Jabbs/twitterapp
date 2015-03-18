@@ -18,7 +18,7 @@ namespace :twitter do
       end
       
       TwitterAccount.where(following: false).where(unfollowed: false).where(not_valid: false).first(15).each do |twitter_account|
-        local_date_time = local_date_time.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
+        local_date_time = DateTime.now.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
         begin 
           client.follow(twitter_account.screen_name)
           Rails.logger.info "Trip_Sharing followed #{twitter_account.screen_name} at #{local_date_time}"
@@ -46,7 +46,7 @@ namespace :twitter do
     end
     
     TwitterAccount.where(following: true).where(unfollowed: false).where("follow_start < ?", 3.days.ago).order("RANDOM()").each do |twitter_account|
-      local_date_time = local_date_time.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
+      local_date_time = DateTime.now.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
       begin
         friendship = client.friendship(client, twitter_account.screen_name)
         if friendship.attrs[:source][:followed_by] != true || twitter_account.follow_start < 7.days.ago
@@ -75,7 +75,7 @@ namespace :twitter do
     end
     
     TwitterAccount.where(following: true).where(unfollowed: false).each do |twitter_account|
-      local_date_time = local_date_time.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
+      local_date_time = DateTime.now.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
       begin
         client.unfollow(twitter_account.screen_name)
         Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{local_date_time}"
