@@ -18,14 +18,15 @@ namespace :twitter do
       end
       
       TwitterAccount.where(following: false).where(unfollowed: false).where(not_valid: false).first(15).each do |twitter_account|
+        local_date_time = local_date_time.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
         begin 
           client.follow(twitter_account.screen_name)
-          Rails.logger.info "Trip_Sharing followed #{twitter_account.screen_name} at #{DateTime.now}"
-          twitter_account.follow_start = DateTime.now
+          Rails.logger.info "Trip_Sharing followed #{twitter_account.screen_name} at #{local_date_time}"
+          twitter_account.follow_start = local_date_time
           twitter_account.following = true
           twitter_account.save
         rescue Twitter::Error => e
-          Rails.logger.info "ERROR: #{e.class} #{e.message} #{twitter_account.screen_name} at #{DateTime.now}"
+          Rails.logger.info "ERROR: #{e.class} #{e.message} #{twitter_account.screen_name} at #{local_date_time}"
           if e.class == Twitter::Error::NotFound
             twitter_account.not_valid = true
             twitter_account.save
@@ -45,12 +46,13 @@ namespace :twitter do
     end
     
     TwitterAccount.where(following: true).where(unfollowed: false).where("follow_start < ?", 3.days.ago).order("RANDOM()").each do |twitter_account|
+      local_date_time = local_date_time.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
       begin
         friendship = client.friendship(client, twitter_account.screen_name)
         if friendship.attrs[:source][:followed_by] != true || twitter_account.follow_start < 7.days.ago
           client.unfollow(twitter_account.screen_name)
-          Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{DateTime.now}"
-          twitter_account.unfollowed_at = DateTime.now
+          Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{local_date_time}"
+          twitter_account.unfollowed_at = local_date_time
           twitter_account.unfollowed = true
           twitter_account.save
         else
@@ -58,7 +60,7 @@ namespace :twitter do
           twitter_account.save
         end
       rescue Twitter::Error
-        Rails.logger.info "THERE WAS AN ISSUE unfollowing #{twitter_account.screen_name} at #{DateTime.now}"
+        Rails.logger.info "THERE WAS AN ISSUE unfollowing #{twitter_account.screen_name} at #{local_date_time}"
       end
     end
   end
@@ -73,14 +75,15 @@ namespace :twitter do
     end
     
     TwitterAccount.where(following: true).where(unfollowed: false).each do |twitter_account|
+      local_date_time = local_date_time.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M")
       begin
         client.unfollow(twitter_account.screen_name)
-        Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{DateTime.now}"
-        twitter_account.unfollowed_at = DateTime.now
+        Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{local_date_time}"
+        twitter_account.unfollowed_at = local_date_time
         twitter_account.unfollowed = true
         twitter_account.save
       rescue Twitter::Error
-        Rails.logger.info "THERE WAS AN ISSUE unfollowing #{twitter_account.screen_name} at #{DateTime.now}"
+        Rails.logger.info "THERE WAS AN ISSUE unfollowing #{twitter_account.screen_name} at #{local_date_time}"
       end
     end
   end
