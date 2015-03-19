@@ -57,9 +57,6 @@ namespace :twitter do
           twitter_account.unfollowed_at = DateTime.now
           twitter_account.unfollowed = true
           twitter_account.save
-        else
-          twitter_account.friends = true
-          twitter_account.save
         end
       rescue Twitter::Error
         Rails.logger.info "THERE WAS AN ISSUE unfollowing #{twitter_account.screen_name} at #{local_date_time}"
