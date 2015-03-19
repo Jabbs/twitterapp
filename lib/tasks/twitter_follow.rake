@@ -3,7 +3,7 @@ namespace :twitter do
   task :follow => :environment do
     hour = Time.now.hour
     min = Time.now.min
-    fits_min_slot = false
+    odd_time_slot = false
     if (5..15).include?(min) || (25..35).include?(min) || (45..55).include?(min)
       odd_time_slot = true
     end
