@@ -7,7 +7,9 @@ namespace :twitter do
     if (5..15).include?(min) || (25..35).include?(min) || (45..55).include?(min)
       odd_time_slot = true
     end
-    
+    Rails.logger.info "rake db:twitter:follow started"
+    Rails.logger.info "hour: #{hour}, min: #{min}, odd_time_slot: #{odd_time_slot}"
+    Rails.logger.info "local time: #{DateTime.now.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M%P")}"
     # 11:00pm to 6:59am CST do not disturb
     if !(5..12).include?(hour) && odd_time_slot == true
       client = Twitter::REST::Client.new do |config|
