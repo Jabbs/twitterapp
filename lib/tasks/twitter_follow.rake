@@ -22,11 +22,11 @@ namespace :twitter do
         begin 
           client.follow(twitter_account.screen_name)
           Rails.logger.info "Trip_Sharing followed #{twitter_account.screen_name} at #{local_date_time}"
-          twitter_account.follow_start = local_date_time
+          twitter_account.follow_start = DateTime.now
           twitter_account.following = true
           twitter_account.save
         rescue Twitter::Error => e
-          Rails.logger.info "ERROR: #{e.class} #{e.message} #{twitter_account.screen_name} at #{local_date_time}"
+          Rails.logger.info "ERROR: #{e.class} #{twitter_account.screen_name} at #{local_date_time}"
           if e.class == Twitter::Error::NotFound
             twitter_account.not_valid = true
             twitter_account.save
@@ -52,7 +52,7 @@ namespace :twitter do
         if friendship.attrs[:source][:followed_by] != true || twitter_account.follow_start < 7.days.ago
           client.unfollow(twitter_account.screen_name)
           Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{local_date_time}"
-          twitter_account.unfollowed_at = local_date_time
+          twitter_account.unfollowed_at = DateTime.now
           twitter_account.unfollowed = true
           twitter_account.save
         else
@@ -79,7 +79,7 @@ namespace :twitter do
       begin
         client.unfollow(twitter_account.screen_name)
         Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{local_date_time}"
-        twitter_account.unfollowed_at = local_date_time
+        twitter_account.unfollowed_at = DateTime.now
         twitter_account.unfollowed = true
         twitter_account.save
       rescue Twitter::Error
