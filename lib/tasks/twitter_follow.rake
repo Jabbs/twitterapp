@@ -19,7 +19,7 @@ namespace :twitter do
         config.access_token_secret = ENV["TWITTER_ACCESS_SECRET"]
       end
       
-      TwitterAccount.where(following: false).where(unfollowed: false).where(not_valid: false).first(15).each do |twitter_account|
+      TwitterAccount.where(following: false).where(unfollowed: false).where(not_valid: false).order("RANDOM()").first(15).each do |twitter_account|
         local_date_time = DateTime.now.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M%P")
         begin 
           client.follow(twitter_account.screen_name)
