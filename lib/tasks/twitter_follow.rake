@@ -51,7 +51,7 @@ namespace :twitter do
       local_date_time = DateTime.now.in_time_zone("Central Time (US & Canada)").strftime("%m/%e/%y %l:%M%P")
       begin
         friendship = client.friendship(client, twitter_account.screen_name)
-        if friendship.attrs[:source][:followed_by] != true || twitter_account.follow_start < 7.days.ago
+        if friendship.attrs[:source][:followed_by] != true || twitter_account.follow_start < 20.days.ago
           client.unfollow(twitter_account.screen_name)
           Rails.logger.info "Trip_Sharing unfollowed #{twitter_account.screen_name} at #{local_date_time}"
           twitter_account.unfollowed_at = DateTime.now
